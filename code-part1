@@ -1,0 +1,28 @@
+//PASS 1
+
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+int main()
+{
+    char label[20],opcode[20],operand[20];
+    int address,final_address,previous_address;
+    char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
+    char code[20][20]={"30","40","50","55"};
+
+    FILE *fp1,*fp2;
+
+    fp1=fopen("INTERMED.DAT","r");
+    fp2=fopen("OBJCODE.DAT","w");
+//WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
+    fscanf(fp1,"%s%s%s",label,opcode,operand);
+    while(strcmp(opcode,"END")!=0)
+    {
+        previous_address=address;
+        fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
+    }
+    final_address=address;
+    fclose(fp1);
+
+}
