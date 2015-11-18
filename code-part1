@@ -7,7 +7,7 @@
 int main()
 {
     char label[20],opcode[20],operand[20];
-    int address,final_address,previous_address;
+    int address,final_address,previous_address,st;
     char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
@@ -24,5 +24,17 @@ int main()
     }
     final_address=address;
     fclose(fp1);
+    fp1=fopen("INTERMED.DAT","r");
+
+    fscanf(fp1,"%s%s%s",label,opcode,operand);
+    if(strcmp(opcode,"START")==0)
+    {
+       fprintf(fp2,"H^%s^00%s^00%d\n",label,operand,final_address);
+       fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
+       st=address;
+       diff=previous_address-st;
+       fprintf(fp2,"T^00%d^%d",address,diff);
+    }
 
 }
+
