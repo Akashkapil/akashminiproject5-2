@@ -1,3 +1,4 @@
+//PASS 1
 
 #include<stdio.h>
 #include<conio.h>
@@ -6,14 +7,16 @@
 int main()
 {
     char label[20],opcode[20],operand[20];
-    int address,final_address,previous_address,st;
+    int address,final_address,previous_address,st,length,actual_length;
     char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
-    FILE *fp1,*fp2;
+    FILE *fp1,*fp2,*fp3,*fp4;
 
     fp1=fopen("INTERMED.DAT","r");
     fp2=fopen("OBJCODE.DAT","w");
+    fp3=fopen("ASSMLIST","w");
+    fp4=fopen("SYMTAB","r");
 //WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
     fscanf(fp1,"%s%s%s",label,opcode,operand);
     while(strcmp(opcode,"END")!=0)
@@ -28,11 +31,23 @@ int main()
     fscanf(fp1,"%s%s%s",label,opcode,operand);
     if(strcmp(opcode,"START")==0)
     {
+       fprintf(fp3,"\t%s\t%s\t%s\n",label,opcode,operand);
        fprintf(fp2,"H^%s^00%s^00%d\n",label,operand,final_address);
        fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
        st=address;
        diff=previous_address-st;
        fprintf(fp2,"T^00%d^%d",address,diff);
+    }
+    while(strcmp(opcode,"END")!=0)
+    {
+       if(strcmp(opcode,"BYTE")==0)
+       {
+        fprintf(fp3,"%d\t%s\t%s\t%s\t",address,label,opcode,operand);
+        length=strlen(operand);
+        actual_length=length-3;
+        fprintf(fp2,"^");
+        for()
+       }
     }
 
 }
