@@ -36,17 +36,34 @@ int main()
        diff=previous_address-st;
        fprintf(fp2,"T^00%d^%d",address,diff);
     }
-    while(strcmp(opcode,"END")!=0)
+    do
     {
-       if(strcmp(opcode,"BYTE")==0)
+       if(strcmp(opcode,"WORD")==0)
+       {
+        length=strlen(operand);
+        itoa(atoi(operand),a,10);
+        fprintf(fp3,"%d\t%s\t%s\t%s\t00000%s\n",address,label,opcode,operand,a);
+        fprintf(fp2,"^00000%s",a);
+       }
+       else if(strcmp(opcode,"BYTE")==0)
        {
         fprintf(fp3,"%d\t%s\t%s\t%s\t",address,label,opcode,operand);
         length=strlen(operand);
         actual_length=length-3;
         fprintf(fp2,"^");
-        for()
+        for(i=2;i<(actual_length+2);i++)
+        {
+            itoa(operand[i],addr,16);           //itoa function converts integer to string
+            fprintf(fp3,"%s",addr);             //atoi function convert string to integer
+            fprintf(fp2,"%s",addr);
+        }
+        fprintf(fp3,"\n");
        }
-    }
+       else if((strcmp(opcode,"RESB")==0)||(strcmp(opcode,"RESW")==0))
+       {
+           fprintf(fp1,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
+       }
+    }while(strcmp(opcode,"END")!=0);
 
 }
 
