@@ -15,7 +15,7 @@ int main()
     fp2=fopen("OBJCODE.DAT","w");
     fp3=fopen("ASSMLIST","w");
     fp4=fopen("SYMTAB","r");
-    //WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
+//WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
     fscanf(fp1,"%s%s%s",label,opcode,operand);
     while(strcmp(opcode,"END")!=0)
     {
@@ -83,6 +83,13 @@ int main()
        }
        fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
     }while(strcmp(opcode,"END")!=0);
+    system("color 2");
+    fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
+    fprintf(fp2,"\nE^00%d",st);
+
+    fclose(fp2);
+    fclose(fp1);
 
 }
+
 
