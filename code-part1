@@ -4,8 +4,8 @@
 
 int main()
 {
-    char label[20],opcode[20],operand[20];
-    int address,final_address,previous_address,st,length,actual_length,j=0;
+    char label[20],opcode[20],operand[20],symbol[20],a[20],addr[20],ch;
+    int address,final_address,previous_address,st,length,actual_length,j=0,i,choice;
     char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
@@ -89,6 +89,52 @@ int main()
 
     fclose(fp2);
     fclose(fp1);
-}
+    printf("\n\n******************************WELCOME***********************************\n\n");
+do
+{
+  printf("\n\n1)Press 1 to display intermediate file \n2)Press 2 to display the symbol table\n3)Press 3 to display the contents of object file\n4)Press4 to exit\n");
+  scanf("\n%d",&choice);
+    switch(choice)
+      {
+       case 1:
+          printf("\n\nThe contents of Intermediate file:\n\n");
+          fp1=fopen("INTERMED.DAT","r");
+          ch=fgetc(fp1);
+          while(ch!=EOF)
+          {
+           printf("%c",ch);
+           ch=fgetc(fp1);
+          }
+          fclose(fp1);
+          break;
+       case 2:
+           printf("\n\nThe contents of Symbol Table :\n\n");
+           fp4=fopen("SYMTAB.DAT","r");
+           ch=fgetc(fp4);
+           while(ch!=EOF)
+           {
+            printf("%c",ch);
+            ch=fgetc(fp4);
+           }
+           fclose(fp4);
+           break;
+       case 3:
+         printf("\n\nThe contents of Object code file :\n\n");
+         fp2=fopen("OBJCODE.DAT","r");
+         ch=fgetc(fp2);
+         while(ch!=EOF)
+         {
+          printf("%c",ch);
+          ch=fgetc(fp2);
+         }
+         break;
+       case 4:
+        exit(0);
+      }
 
+  }while(choice<4);
+
+  getch();
+
+}
 
