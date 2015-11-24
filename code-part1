@@ -13,8 +13,8 @@ int main()
 
     fp1=fopen("INTERMED.DAT","r");
     fp2=fopen("OBJCODE.DAT","w");
-    fp3=fopen("ASSMLIST","w");
-    fp4=fopen("SYMTAB","r");
+    fp3=fopen("ASSMLIST.DAT","w");
+    fp4=fopen("SYMTAB.DAT","r");
 //WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
     fscanf(fp1,"%s%s%s",label,opcode,operand);
     while(strcmp(opcode,"END")!=0)
