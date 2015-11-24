@@ -1,5 +1,5 @@
 
-LOD	=	30
-STR	=	40
-LODC	=	50
-STRC	=	55
+LOD(Load=LDA)	      	=	30
+STR(Store=STA)		    =	40
+LODC(Load Char=LDCH)	=	50
+STRC(Store char=STCH)	=	55
