@@ -5,7 +5,7 @@
 int main()
 {
     char label[20],opcode[20],operand[20],symbol[20],a[20],addr[20],ch;
-    int address,final_address,previous_address,st,length,actual_length,j=0,i,choice;
+    int address,final_address,previous_address,st,length,actual_length,j=0,i,choice,diff,addr2;
     char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
@@ -65,7 +65,7 @@ int main()
        }
        else
        {
-           while(strcmp(opcode,mnemonic[j])!=0)
+           while(strcmp(opcode,mneumonic[j])!=0)
             j++;
             if(strcmp(operand,"COPY")==0)
             fprintf(fp3,"%d\t%s\t%s\t%s\t%s0000\n",address,label,opcode,operand,code[j]);
@@ -137,3 +137,6 @@ do
   getch();
 
 }
+
+
+
