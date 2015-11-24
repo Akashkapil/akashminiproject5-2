@@ -6,7 +6,7 @@ int main()
 {
     char label[20],opcode[20],operand[20],symbol[20],a[20],addr[20],ch;
     int address,final_address,previous_address,st,length,actual_length,j=0,i,choice,diff,addr2;
-    char mneumonic[20][20]={"LOD","STD","LODC","STRC"};
+    char mneumonic[20][20]={"LOD","STR","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
     FILE *fp1,*fp2,*fp3,*fp4;
@@ -38,14 +38,7 @@ int main()
     }
     do
     {
-       if(strcmp(opcode,"WORD")==0)
-       {
-        length=strlen(operand);
-        itoa(atoi(operand),a,10);
-        fprintf(fp3,"%d\t%s\t%s\t%s\t00000%s\n",address,label,opcode,operand,a);
-        fprintf(fp2,"^00000%s",a);
-       }
-       else if(strcmp(opcode,"BYTE")==0)
+        if(strcmp(opcode,"BYTE")==0)
        {
         fprintf(fp3,"%d\t%s\t%s\t%s\t",address,label,opcode,operand);
         length=strlen(operand);
@@ -59,9 +52,16 @@ int main()
         }
         fprintf(fp3,"\n");
        }
+       else if(strcmp(opcode,"WORD")==0)
+       {
+        length=strlen(operand);
+        itoa(atoi(operand),a,10);
+        fprintf(fp3,"%d\t%s\t%s\t%s\t00000%s\n",address,label,opcode,operand,a);
+        fprintf(fp2,"^00000%s",a);
+       }
        else if((strcmp(opcode,"RESB")==0)||(strcmp(opcode,"RESW")==0))
        {
-           fprintf(fp1,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
+           fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
        }
        else
        {
@@ -83,16 +83,16 @@ int main()
        }
        fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
     }while(strcmp(opcode,"END")!=0);
-    system("color 2");
+    system("color 3");
     fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
     fprintf(fp2,"\nE^00%d",st);
 
     fclose(fp2);
     fclose(fp1);
-    printf("\n\n******************************WELCOME***********************************\n\n");
+    printf("\n\n*********************************WELCOME*************************************\n\n");
 do
 {
-  printf("\n\n1)Press 1 to display intermediate file \n2)Press 2 to display the symbol table\n3)Press 3 to display the contents of object file\n4)Press4 to exit\n");
+  printf("\n\n\t\t1)Press 1 to display intermediate file \n\t\t2)Press 2 to display the symbol table\n\t\t3)Press 3 to display the contents of object file\n\t\t4)Press4 to exit\n");
   scanf("\n%d",&choice);
     switch(choice)
       {
@@ -133,10 +133,5 @@ do
       }
 
   }while(choice<4);
-
   getch();
-
 }
-
-
-
