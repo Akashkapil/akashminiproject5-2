@@ -8,9 +8,7 @@ int main()
     int address,final_address,previous_address,st,length,actual_length,j=0,i,choice,diff,addr2;
     char mneumonic[20][20]={"LOD","STR","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
-
     FILE *fp1,*fp2,*fp3,*fp4;
-
     fp1=fopen("INTERMED.DAT","r");
     fp2=fopen("OBJCODE.DAT","w");
     fp3=fopen("ASSMLIST.DAT","w");
@@ -86,7 +84,6 @@ int main()
     system("color 3");
     fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
     fprintf(fp2,"\nE^00%d",st);
-
     fclose(fp2);
     fclose(fp1);
     printf("\n\n*********************************WELCOME*************************************\n\n");
@@ -131,7 +128,6 @@ do
        case 4:
         exit(0);
       }
-
   }while(choice<4);
   getch();
 }
