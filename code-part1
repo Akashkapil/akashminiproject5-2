@@ -1,11 +1,12 @@
 #include<stdio.h>
-#include<conio.h>
+#include<math.h>
 #include<string.h>
+#include"myheader.h"
 
 int main()
 {
-    char label[20],opcode[20],operand[20],symbol[20],a[20],addr[20],ch;
-    int address,final_address,previous_address,st,length,actual_length,j=0,i,choice,diff,addr2;
+    char label[20],opcode[20],operand[20],symbol[20],a[20],addr[20],ch,address_text[20],addr2[20];
+    int address=2000,final_address,previous_address,st,length,actual_length,j=0,i,choice,diff;
     char mneumonic[20][20]={"LOD","STR","LODC","STRC"};
     char code[20][20]={"30","40","50","55"};
 
@@ -17,12 +18,15 @@ int main()
     fp4=fopen("SYMTAB.DAT","r");
 //WE ARE USING .DAT FORMAT BECAUSE IN .TXT FORMAT THE STRING WILL READ ONLY ONE CHAR AT A TIME SO AS TO READ THE WHOLE STRING WE ARE USING THE .DAT FORMAT
     fscanf(fp1,"%s%s%s",label,opcode,operand);
+    int address_value=convtodecnum(operand);
     while(strcmp(opcode,"END")!=0)
     {
-        previous_address=address;
-        fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
+       itoa(address,address_text,10);
+        previous_address=convtodecnum(address_text);
+        fscanf(fp1,"%s%s%s%s",address_text,label,opcode,operand);
     }
-    final_address=address;
+
+    final_address=convtodecnum(address_text);
     fclose(fp1);
     fp1=fopen("INTERMED.DAT","r");
 
@@ -30,17 +34,17 @@ int main()
     if(strcmp(opcode,"START")==0)
     {
        fprintf(fp3,"\t%s\t%s\t%s\n",label,opcode,operand);
-       fprintf(fp2,"H^%s^00%s^00%d\n",label,operand,final_address);
-       fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
-       st=address;
+       fprintf(fp2,"H^%s^00%s^%06x\n",label,operand,(final_address-address_value));
+       fscanf(fp1,"%s%s%s%s",address_text,label,opcode,operand);
+       st=convtodecnum(address_text);
        diff=previous_address-st;
-       fprintf(fp2,"T^00%d^%d",address,diff);
+       fprintf(fp2,"T^%06s^%06x",address_text,diff);
     }
     do
     {
         if(strcmp(opcode,"BYTE")==0)
        {
-        fprintf(fp3,"%d\t%s\t%s\t%s\t",address,label,opcode,operand);
+        fprintf(fp3,"%s\t%s\t%s\t%s\t",address_text,label,opcode,operand);
         length=strlen(operand);
         actual_length=length-3;
         fprintf(fp2,"^");
@@ -56,36 +60,36 @@ int main()
        {
         length=strlen(operand);
         itoa(atoi(operand),a,10);
-        fprintf(fp3,"%d\t%s\t%s\t%s\t00000%s\n",address,label,opcode,operand,a);
-        fprintf(fp2,"^00000%s",a);
+        fprintf(fp3,"%s\t%s\t%s\t%s\t%06s\n",address_text,label,opcode,operand,a);
+        fprintf(fp2,"^%06s",a);
        }
        else if((strcmp(opcode,"RESB")==0)||(strcmp(opcode,"RESW")==0))
        {
-           fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
+           fprintf(fp3,"%s\t%s\t%s\t%s\n",address_text,label,opcode,operand);
        }
        else
        {
            while(strcmp(opcode,mneumonic[j])!=0)
             j++;
             if(strcmp(operand,"COPY")==0)
-            fprintf(fp3,"%d\t%s\t%s\t%s\t%s0000\n",address,label,opcode,operand,code[j]);
+            fprintf(fp3,"%s\t%s\t%s\t%s\t%s0000\n",address_text,label,opcode,operand,code[j]);
             else
             {
              rewind(fp4);   //it sets the file position indicator to the begining of the file
-             fscanf(fp4,"%s%d",symbol,&addr2);
+             fscanf(fp4,"%s%s",symbol,addr2);
               while(strcmp(operand,symbol)!=0)
               {
-               fscanf(fp4,"%s%d",symbol,&addr2);
+               fscanf(fp4,"%s%s",symbol,addr2);
               }
-             fprintf(fp3,"%d\t%s\t%s\t%s\t%s%d\n",address,label,opcode,operand,code[j],addr2);
-             fprintf(fp2,"^%s%d",code[j],addr2);
+             fprintf(fp3,"%s\t%s\t%s\t%s\t%s%s\n",address_text,label,opcode,operand,code[j],addr2);
+             fprintf(fp2,"^%s%s",code[j],addr2);
             }
        }
-       fscanf(fp1,"%d%s%s%s",&address,label,opcode,operand);
+       fscanf(fp1,"%s%s%s%s",&address_text,label,opcode,operand);
     }while(strcmp(opcode,"END")!=0);
     system("color 3");
-    fprintf(fp3,"%d\t%s\t%s\t%s\n",address,label,opcode,operand);
-    fprintf(fp2,"\nE^00%d",st);
+    fprintf(fp3,"%s\t%s\t%s\t%s\n",address_text,label,opcode,operand);
+    fprintf(fp2,"\nE^%06x",st);
 
     fclose(fp2);
     fclose(fp1);
@@ -135,7 +139,6 @@ do
         ch=fgetc(fp3);
         while(ch!=EOF)
         {
-           //printf("%c",ch);
            ch=fgetc(fp3);
            printf("%c",ch);
         }
@@ -146,7 +149,5 @@ do
       }
 
   }while(choice<6);
-
   getch();
-
 }
